@@ -34,6 +34,7 @@
 <script>
 import myNav from '@/components/myNav'
 import { login, sendSms } from '@/api/user.js'
+import { mapMutations } from 'vuex'
 export default {
   name: 'loginPage',
   components: {
@@ -44,7 +45,7 @@ export default {
       // 表单信息
       user: {
         mobile: '13911111111',
-        code: ''
+        code: '246810'
       },
       // 校验规则
       userFormRules: {
@@ -61,10 +62,12 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('user', ['setUser']),
     // 登录的方法
     async onLogin () {
       const res = await login(this.user)
-      console.log(res)
+      // 用户信息存在vuex
+      this.setUser(res)
     },
     // 错误提示的方法
     onFailed (errorInfo) {
