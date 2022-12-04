@@ -1,31 +1,21 @@
 <template>
   <div class="login-container">
     <!-- 顶部导航栏 -->
-    <myNav title="登录" />
+    <myNav  :showArrow="true">
+      <div slot="title">登录</div>
+    </myNav>
     <!-- 表单 -->
-    <van-form
-    ref="loginForm"
-    validate-first
-    :show-error="false"
-    :show-error-message="false"
-    @submit="onLogin"
-    @failed="onFailed"
-    >
-      <van-field v-model="user.mobile" icon-prefix="toutiao" name="mobile" left-icon="shouji" placeholder="请输入手机号码" :rules="userFormRules.mobile"/>
+    <van-form ref="loginForm" validate-first :show-error="false" :show-error-message="false" @submit="onLogin" @failed="onFailed">
+      <van-field v-model="user.mobile" icon-prefix="toutiao" name="mobile" left-icon="shouji" placeholder="请输入手机号码" :rules="userFormRules.mobile" />
       <van-field v-model="user.code" center icon-prefix="toutiao" left-icon="yanzhengma" placeholder="请输入验证码" clearable :rules="userFormRules.code">
         <template #button>
-          <van-count-down :time="(1000*60)"
-          format=" ss秒后可重新发送"
-          v-if="isCountDownShow"
-          @finish="(isCountDownShow = false)"
-
-          />
+          <van-count-down :time="(1000*60)" format=" ss秒后可重新发送" v-if="isCountDownShow" @finish="(isCountDownShow = false)" />
           <van-button class="send-btn" native-type="button" :loading="isSendSmsLoading" size="mini" round @click="onSendSms" v-else>发送验证码</van-button>
         </template>
       </van-field>
       <!-- 登录按钮 -->
       <div class="login-btn-wrap">
-        <van-button class="login-btn" type="info" block >登录</van-button>
+        <van-button class="login-btn" type="info" block>登录</van-button>
       </div>
     </van-form>
   </div>
@@ -35,6 +25,7 @@
 import myNav from '@/components/myNav'
 import { login, sendSms } from '@/api/user.js'
 import { mapMutations } from 'vuex'
+
 export default {
   name: 'loginPage',
   components: {
@@ -49,16 +40,19 @@ export default {
       },
       // 校验规则
       userFormRules: {
-        mobile: [{ required: true, message: '请填写手机号' },
-          { pattern: /^[1][3,4,5,6.7,8,9][0-9]{9}$/, message: '手机号码不合法' }],
-        code: [{ required: true, message: '请填写验证码' },
-          { pattern: /^\d{6}$/, message: '手机号码不合法' }]
+        mobile: [
+          { required: true, message: '请填写手机号' },
+          { pattern: /^[1][3,4,5,6.7,8,9][0-9]{9}$/, message: '手机号码不合法' }
+        ],
+        code: [
+          { required: true, message: '请填写验证码' },
+          { pattern: /^\d{6}$/, message: '手机号码不合法' }
+        ]
       },
       // 倒计时显示标识
       isCountDownShow: false,
       // 按钮加载中状态标识
       isSendSmsLoading: false
-
     }
   },
   methods: {
@@ -68,14 +62,16 @@ export default {
       const res = await login(this.user)
       // 用户信息存在vuex
       this.setUser(res)
+      this.$router.back()
     },
     // 错误提示的方法
     onFailed (errorInfo) {
-      errorInfo.errors[0] && (this.$toast.fail({
-        message: errorInfo.errors[0].message,
-        forbidClick: true,
-        position: 'top'
-      }))
+      errorInfo.errors[0] &&
+        this.$toast.fail({
+          message: errorInfo.errors[0].message,
+          forbidClick: true,
+          position: 'top'
+        })
     },
     // 发送验证码的方法
     async onSendSms () {

@@ -8,7 +8,16 @@ import {
   CellGroup,
   Form,
   Toast,
-  CountDown
+  CountDown,
+  Cell,
+  Image as VanImage,
+  Grid,
+  GridItem,
+  Dialog,
+  Tab,
+  Tabs,
+  List,
+  PullRefresh
 } from 'vant'
 
 Vue.use(Button)
@@ -20,3 +29,12 @@ Vue.use(CellGroup)
 Vue.use(Form)
 Vue.use(Toast)
 Vue.use(CountDown)
+Vue.use(Cell)
+Vue.use(VanImage)
+Vue.use(Grid)
+Vue.use(GridItem)
+Vue.use(Dialog)
+Vue.use(Tab)
+Vue.use(Tabs)
+Vue.use(List)
+Vue.use(PullRefresh)

@@ -2,10 +2,14 @@
   <div class="nav-cotain">
     <van-nav-bar
     class="page-nav-bar"
-  :title=title
-  left-arrow
-  @click-left="$router.back()"
-/>
+    :left-arrow="showArrow"
+    @click-left="$router.back()"
+    >
+      <!-- 标题插槽 -->
+      <div slot="title">
+        <slot name="title"></slot>
+      </div>
+    </van-nav-bar>
   </div>
 </template>
 
@@ -13,10 +17,10 @@
 export default {
   name: 'myNav',
   props: {
-    // 标题内容
-    title: {
-      type: String,
-      default: '标题'
+    // 控制显示左箭头标识
+    showArrow: {
+      type: Boolean,
+      default: false
     }
   },
   methods: {

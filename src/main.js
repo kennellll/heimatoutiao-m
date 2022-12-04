@@ -5,6 +5,8 @@ import store from './store'
 // 导入全局样式
 import './styles/index.less'
 import './plugins/vant.js'
+// 导入格式化时间插件
+import './utils/dayjs.js'
 
 Vue.config.productionTip = false
 
