@@ -56,7 +56,7 @@ request.interceptors.response.use(
     // 解构一层data，方便后续调用
     const { message, data } = response.data
     // 响应成功提示
-    Toast.success('操作成功')
+    Toast.success('数据刷新成功')
     if (message === 'OK') {
       // 直接返回解构后的数据
       return data

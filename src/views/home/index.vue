@@ -3,7 +3,7 @@
     <!-- 顶部导航栏组件 -->
     <myNav>
       <template #title>
-        <van-button class="search-btn" icon="search" type="info" round size="small">搜索</van-button>
+        <van-button class="search-btn" icon="search" type="info" round size="small" to="/search">搜索</van-button>
       </template>
     </myNav>
 
