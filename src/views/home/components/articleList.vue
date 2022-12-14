@@ -3,7 +3,9 @@
     <van-pull-refresh v-model="isRefreshLoading" @refresh="onRefresh">
       <van-list v-model="loading" :finished="finished" finished-text="数据已全部加载" @load="onLoad">
         <!-- 文章item组件 -->
-        <myArticleItem v-for="item in articles" :key="item.art_id" :article="item" />
+        <myArticleItem v-for="item in articles" :key="item.art_id" :article="item" @click.native="$router.push({name:'article',params:{
+          articleId:item.art_id
+        }})" />
       </van-list>
     </van-pull-refresh>
   </div>

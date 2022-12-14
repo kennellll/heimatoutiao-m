@@ -20,7 +20,8 @@ import {
   PullRefresh,
   Popup,
   Icon,
-  Search
+  Search,
+  Loading
 } from 'vant'
 
 Vue.use(Button)
@@ -44,3 +45,4 @@ Vue.use(PullRefresh)
 Vue.use(Popup)
 Vue.use(Icon)
 Vue.use(Search)
+Vue.use(Loading)
