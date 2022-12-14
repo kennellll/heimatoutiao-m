@@ -29,7 +29,7 @@ export default {
     // 文章ID
     articleId: {
       type: String,
-      default: '123'
+      default: '1234'
     }
   }
 }
