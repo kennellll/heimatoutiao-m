@@ -1,11 +1,20 @@
 import axios from 'axios'
-// import jsonBig from 'json-bigint'
+import jsonBig from 'json-bigint'
 import store from '@/store'
 import router from '@/router'
 import { Toast } from 'vant'
 
 const request = axios.create({
   baseURL: 'http://toutiao.itheima.net',
+  transformResponse: [function(data) {
+    try {
+      // 如果转换成功则返回转换的数据结果
+      return jsonBig.parse(data)
+    } catch (err) {
+      // 如果转换失败，则包装为统一数据格式并返回
+      return data
+    }
+  }],
   timeout: 5000
 })
 
