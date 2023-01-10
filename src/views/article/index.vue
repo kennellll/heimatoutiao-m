@@ -4,18 +4,23 @@
     <myNav showArrow>
       <div slot="title">黑马头条</div>
     </myNav>
-    <!-- 标题 -->
-    <h1 class="title">{{article.title}}</h1>
-    <!-- 作者信息 -->
-    <van-cell class="user-info" center :border="false">
-      <van-image class="avatar" slot="icon" round fit="cover" :src="article.aut_photo" />
-      <div slot="title" class="name">{{article.aut_name}}</div>
-      <div slot="label" class="publish-date">{{article.pubdate|relativeTime}}</div>
-      <van-button class="follow-btn" :loading="isFollowLoading" :type="article.is_followed?'default':'info'" color="#3296fa" round size="small" :icon="article.is_followed?'':'plus'" @click="onFollow">{{article.is_followed?'已关注':'关注'}}</van-button>
-    </van-cell>
-    <!-- 文章内容 -->
-    <div class="article-content markdown-body" ref="article-content" v-html="article.content">
+    <div class="article-wrap">
+      <!-- 标题 -->
+      <h1 class="title">{{article.title}}</h1>
+      <!-- 作者信息 -->
+      <van-cell class="user-info" center :border="false">
+        <van-image class="avatar" slot="icon" round fit="cover" :src="article.aut_photo" />
+        <div slot="title" class="name">{{article.aut_name}}</div>
+        <div slot="label" class="publish-date">{{article.pubdate|relativeTime}}</div>
+        <van-button class="follow-btn" :loading="isFollowLoading" :type="article.is_followed?'default':'info'" color="#3296fa" round size="small" :icon="article.is_followed?'':'plus'" @click="onFollow">{{article.is_followed?'已关注':'关注'}}</van-button>
+      </van-cell>
+      <!-- 文章内容 -->
+      <div class="article-content markdown-body" ref="article-content" v-html="article.content">
+      </div>
+      <!-- 评论列表 -->
+      <commentList :articleId="articleId" />
     </div>
+
     <!-- 底部区域 -->
     <div class="article-bottom">
       <van-button class="comment-btn" type="default" round size="small">写评论</van-button>
@@ -29,6 +34,7 @@
 
 <script>
 import myNav from '@/components/myNav'
+import commentList from './components/commentList'
 // import { ImagePreview } from 'vant'
 import { getArticleById, addCollect, deleteCollect } from '@/api/article.js'
 import { addFollow, deleteFollow } from '@/api/user.js'
@@ -36,7 +42,8 @@ export default {
   name: 'articlePage',
 
   components: {
-    myNav
+    myNav,
+    commentList
   },
 
   data() {
@@ -123,6 +130,8 @@ export default {
           forbidClick: true
         })
         if (this.article.is_collected) {
+          this.$toast.success('取消收藏')
+          this.article.is_collected = !this.article.is_collected
           // 取消收藏
           await deleteCollect(this.articleId)
         } else {
@@ -142,6 +151,14 @@ export default {
 <style lang="less" scoped>
 @import './github-markdown.css';
 .article-container {
+  .article-wrap {
+    position: fixed;
+    top: 46px;
+    right: 0;
+    left: 0;
+    bottom: 44px;
+    overflow-y: auto;
+  }
   .title {
     font-size: 20px;
     color: #3a3a3a;
